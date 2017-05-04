@@ -37,6 +37,8 @@ gem 'dotenv-rails'
 
 gem 'devise'
 gem 'cancancan'
+gem 'bootstrap-sass', '~> 3.3.6'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
