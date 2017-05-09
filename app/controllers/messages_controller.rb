@@ -1,0 +1,3 @@
+class MessagesControler < ApplicationController
+
+end
