@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root 'home#index'
 
   resources :posts, only: [:index]
+  resources :chat_rooms
 end
