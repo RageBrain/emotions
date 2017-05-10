@@ -1,3 +1,3 @@
-class MessagesControler < ApplicationController
+class MessagesController < ApplicationController
 
 end
