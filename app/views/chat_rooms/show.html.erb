@@ -1,5 +1,8 @@
 <h1><%= @chat_room.title %></h1>
-
+<h2 id="result-cable"></h2>
+<video height="300" id="localVideo"></video>
+<div id="remotesVideos"></div>
+<div id="results" style="word-wrap:break-word;"></div>
 <div id="messages" data-chat-room-id="<%= @chat_room.id %>">
   <%= render @chat_room.messages %>
 </div>
@@ -16,3 +19,82 @@
 
     <%= f.submit "Post", class: 'btn btn-primary btn-lg' %>
 <% end %>
+
+<script type="text/javascript" charset="utf-8">
+  var webrtc = new SimpleWebRTC({
+    // the id/element dom element that will hold "our" video
+    localVideoEl: 'localVideo',
+    // the id/element dom element that will hold remote videos
+    remoteVideosEl: 'remotesVideos',
+    // immediately ask for camera access
+    autoRequestMedia: true
+  });
+  // we have to wait until it's ready
+  webrtc.on('readyToCall', function () {
+    // you can name it anything
+    webrtc.joinRoom('Chat-room'+ <%= @chat_room.id %>);
+  });
+</script>
+
+<script type="text/javascript" charset="utf-8">
+  var divRoot = $("#localVideo")[0];
+  var width = 640;
+  var height = 480;
+  var faceMode = affdex.FaceDetectorMode.LARGE_FACES;
+  //Construct a CameraDetector and specify the image width / height and face detector mode.
+  var detector = new affdex.CameraDetector(divRoot, width, height, faceMode);
+
+  //Enable detection of all Expressions, Emotions and Emojis classifiers.
+  detector.detectAllEmotions();
+  detector.detectAllExpressions();
+  detector.detectAllEmojis();
+  detector.detectAllAppearance();
+
+  //Add a callback to notify when the detector is initialized and ready for runing.
+
+  function log(node_name, msg) {
+    $(node_name).append("<span>" + msg + "</span><br />")
+  }
+
+  $(function() {
+    if (detector && !detector.isRunning) {
+      $("#logs").html("");
+      detector.start();
+      sendEmotions();
+    }
+    log('#logs', "Clicked the start button");
+  });
+
+  //Add a callback to receive the results from processing an image.
+  //The faces object contains the list of the faces detected in an image.
+  //Faces object contains probabilities for all the different expressions, emotions and appearance metrics
+  detector.addEventListener("onImageResultsSuccess", function(faces, image, timestamp) {
+    $('#results').html("");
+    log('#results', "Timestamp: " + timestamp.toFixed(2));
+    log('#results', "Number of faces found: " + faces.length);
+    if (faces.length > 0) {
+      log('#results', "Appearance: " + JSON.stringify(faces[0].appearance));
+      log('#results', "Emotions: " + JSON.stringify(faces[0].emotions, function(key, val) {
+            return val.toFixed ? Number(val.toFixed(0)) : val;
+          }));
+      log('#results', "Expressions: " + JSON.stringify(faces[0].expressions, function(key, val) {
+            return val.toFixed ? Number(val.toFixed(0)) : val;
+          }));
+      log('#results', "Emoji: " + faces[0].emojis.dominantEmoji);
+    }
+  });
+
+    function sendEmotions() {
+      $.ajax({
+        method: 'GET',
+        url: '/send_emotions',
+        data: {
+          room: <%= @chat_room.id %>,
+          emotion: 'бля бля бля'
+        },
+        success: function(){
+          setTimeout(sendEmotions, 10000)
+        }
+      });
+    }
+</script>

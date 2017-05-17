@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   resources :posts, only: [:index]
   resources :chat_rooms, only: [:new, :create, :show, :index]
+  get :send_emotions, to: 'chat_rooms#send_emotions'
 end

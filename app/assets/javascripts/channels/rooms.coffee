@@ -1,5 +1,6 @@
 jQuery(document).on 'turbolinks:load', ->
   messages = $('#messages')
+  result = $('#result-cable')
   if $('#messages').length > 0
     messages_to_bottom = -> messages.scrollTop(messages.prop("scrollHeight"))
 
@@ -17,6 +18,7 @@ jQuery(document).on 'turbolinks:load', ->
 
       received: (data) ->
         messages.append data['message']
+        result.replaceWith data['emotion']
         messages_to_bottom()
 
       send_message: (message, chat_room_id) ->

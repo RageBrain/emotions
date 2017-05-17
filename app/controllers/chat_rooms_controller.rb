@@ -21,6 +21,15 @@ class ChatRoomsController < ApplicationController
     end
   end
 
+  def send_emotions
+    unless params[:emotion] == ''
+      ActionCable.server.broadcast "chat_rooms_#{params[:room]}_channel",
+                                   emotion: params[:emotion]
+    else
+      p params[:emotion]
+    end
+  end
+
   private
 
   def chat_room_params
