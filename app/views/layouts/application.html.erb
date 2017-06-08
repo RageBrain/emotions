@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Emotions</title>
-    <%= csrf_meta_tags %>
+<head>
+  <title>RubySchool</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <script src="https://simplewebrtc.com/latest-v2.js"></script>
-    <script src="https://download.affectiva.com/js/3.2/affdex.js"></script>
-  </head>
-
-  <body>
-  <div class="container">
+<div class="container">
+  <div class="row">
     <div class="row">
+      <h1>Emotion Stats</h1>
+    </div>
+    <div class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#responsive-menu">
+            <span class="sr-only">Open navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="responsive-menu">
+          <ul class="nav navbar-nav">
+            <li><%= link_to "Last Update", posts_path %></li>
+            <li><% if current_user %>
+                <%= link_to "Chat Rooms", chat_rooms_path %>
+              <% end %></li>
+            <li><% if current_user %>
+                  <%= link_to 'Create room', new_chat_room_path %>
+              <% end %></li>
+          </ul>
+          <% if user_signed_in? %>
+              <p class="navbar-text navbar-right">
+                <i class="glyphicon glyphicon-user"></i> <%= current_user.email %>
+                <%= link_to "Logout", destroy_user_session_path, method: 'delete', class: 'navbar-link' %></p>
+          <% else %>
+              <p class="navbar-text navbar-right">
+                <%= link_to "Sign in", new_user_session_path, class: 'navbar-link'%></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="container">
       <%= yield %>
     </div>
   </div>
-  </body>
+</div>
+
+</body>
 </html>
