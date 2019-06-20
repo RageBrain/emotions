@@ -1,8 +1,33 @@
 <% if user_signed_in? %>
-    <%= current_user.email %> <br>
-    <%= link_to 'Log Out', destroy_user_session_path, method: 'delete' %>
+    <div class="container">
+      <div class="row">
+        <%= simple_form_for(@image) do |f| %>
+            <% if @image.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@image.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+                  <ul>create
+                    <% @image.errors.full_messages.each do |message| %>
+                        <li><%= message %></li>
+                    <% end %>
+                  </ul>
+                </div>
+            <% end %>
+            <div class="container">
+              <div class="row">
+                <%= f.input :file %>
+                <br>
+                <br>
+
+                <div class="actions">
+                  <%= f.submit "Submit", class: 'btn btn-info' %>
+                </div>
+              </div>
+            </div>
+            <br>
+        <% end %>
+      </div>
+    </div>
 <% else %>
     <%= link_to "Sign in", new_user_session_path %>
 <% end %>
-<p>Новий проект</p>
-<%= link_to 'Rooms', chat_rooms_path %>

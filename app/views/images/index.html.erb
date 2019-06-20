@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Created at</th>
+      <th scope="col">Actins</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @images.each do |image| %>
+      <tr>
+        <th scope="row"><%= image.id %></th>
+        <td><%= link_to File.basename(image.file.path), statistic_path(image.statistic) %></td>
+        <td><%= image.created_at %></td>
+        <td><%= link_to 'Delete', image_path(image), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

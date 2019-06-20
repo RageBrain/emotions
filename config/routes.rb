@@ -5,5 +5,10 @@ Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
   resources :posts
   resources :chat_rooms, only: [:new, :create, :show, :index]
+  resources :images
+  resources :statistics do
+    get :reanalyze, on: :member
+  end
+  resources :users
   get :send_emotions, to: 'chat_rooms#send_emotions'
 end

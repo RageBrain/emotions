@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170509164328) do
+ActiveRecord::Schema.define(version: 20190609205654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,14 @@ ActiveRecord::Schema.define(version: 20170509164328) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_chat_rooms_on_user_id", using: :btree
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string   "file"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_images_on_user_id", using: :btree
   end
 
   create_table "messages", force: :cascade do |t|
@@ -40,6 +48,20 @@ ActiveRecord::Schema.define(version: 20170509164328) do
     t.datetime "updated_at",  null: false
   end
 
+  create_table "statistics", force: :cascade do |t|
+    t.float    "anger"
+    t.float    "fear"
+    t.float    "disgust"
+    t.float    "contemp"
+    t.float    "joy"
+    t.float    "sadness"
+    t.float    "surprise"
+    t.integer  "image_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["image_id"], name: "index_statistics_on_image_id", using: :btree
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -53,11 +75,16 @@ ActiveRecord::Schema.define(version: 20170509164328) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "nickname"
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   add_foreign_key "chat_rooms", "users"
+  add_foreign_key "images", "users"
   add_foreign_key "messages", "chat_rooms"
   add_foreign_key "messages", "users"
+  add_foreign_key "statistics", "images"
 end

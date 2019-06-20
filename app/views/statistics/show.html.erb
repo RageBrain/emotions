@@ -1,0 +1,27 @@
+<%= image_tag(@statistic.image.file_url, size: '400') %>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Anger</th>
+      <th scope="col">Fear</th>
+      <th scope="col">Disgust</th>
+      <th scope="col">Contemp</th>
+      <th scope="col">Joy</th>
+      <th scope="col">Sadness</th>
+      <th scope="col">Surprise</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row"><%= "#{@statistic.anger * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.fear * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.disgust * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.contemp * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.joy * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.sadness * 100}%" %></th>
+      <th scope="row"><%= "#{@statistic.surprise * 100}%" %></th>
+    </tr>
+  </tbody>
+</table>
+<br>
+<%= link_to 'Reanalyze', reanalyze_statistic_path(@statistic), class: 'btn btn-primary' %>

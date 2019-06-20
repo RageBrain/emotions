@@ -39,6 +39,8 @@ gem 'devise'
 gem 'cancancan'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'redis', '~> 3.2'
+gem 'carrierwave', '~> 1.0'
+gem 'simple_form'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

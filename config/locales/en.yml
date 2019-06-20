@@ -20,4 +20,7 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  errors:
+    messages:
+      extension_whitelist_error: 'Wrong file format, allow (jpg, jpeg, png)'
   hello: "Hello world"
